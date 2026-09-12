@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>2027 세계일주 — 41일의 지구 한 바퀴</title>
+<title>2027 세계일주 — 40일의 지구 한 바퀴</title>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌍</text></svg>">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@700&family=Noto+Sans+KR:wght@400;500;700&display=swap">
 <style>
@@ -86,7 +86,7 @@
 <body>
 <header>
   <h1>2027 세계일주</h1>
-  <span class="sub">2027.12.1 → 2028.1.10 · 41일 · 동쪽으로 지구 한 바퀴</span>
+  <span class="sub">2027.12.2 → 2028.1.10 · 40일 · 동쪽으로 지구 한 바퀴</span>
   <span class="legend"><span class="f"><i></i>항공</span><span class="g"><i></i>렌터카·기차</span></span>
 </header>
 
@@ -108,26 +108,26 @@
 <script src="https://cdn.jsdelivr.net/npm/globe.gl@2.32.3/dist/globe.gl.min.js"></script>
 <script>
 const STOPS = [
-  {n:0,  city:"인천 출발",     date:"12/1",        lat:37.46,  lng:126.44, desc:"41일 여정의 시작. 가족 4인, 동쪽으로 출발.", via:""},
-  {n:1,  city:"도쿄",          date:"12/1–3",      lat:35.68,  lng:139.77, desc:"태평양 횡단 전 2박 — 휴식과 시차 분할 적응. 저녁엔 teamLab.", via:"✈ 인천→나리타 (제주항공·ZIPAIR)"},
-  {n:2,  city:"밴쿠버",        date:"12/3–5",      lat:49.28,  lng:-123.12, desc:"시차 적응 2박. 카필라노 캐년 라이츠 야간 일루미네이션.", via:"✈ ZIPAIR 직항 (딸 U6 요금)"},
-  {n:3,  city:"옐로나이프",    date:"12/5–8",      lat:62.45,  lng:-114.37, desc:"오로라 3박 — 밤은 난방 티피에서 오로라, 낮은 개썰매. 12/5 주일: 오로라 아래 가족예배.", via:"✈ 밴쿠버발"},
-  {n:4,  city:"라스베가스",    date:"12/8–9",      lat:36.17,  lng:-115.14, desc:"그랜드캐년 관문 1박. 12월 평일 초저가.", via:"✈ 캘거리 경유"},
-  {n:5,  city:"그랜드캐년",    date:"12/9–11",     lat:36.06,  lng:-112.14, desc:"눈 덮인 사우스림 2박 — 일출은 매더 포인트, 아이들은 주니어 레인저 배지. 복귀길 Route 66 셀리그먼.", via:"🚗 렌터카 (왕복 4.5h)"},
-  {n:6,  city:"몬트리올",      date:"12/11–12",    lat:45.50,  lng:-73.57, desc:"1박 — 노트르담 대성당. 12/12 주일예배 후 퀘벡으로. 보유 포인트 44k로 숙박 커버.", via:"✈ 라스베가스발 직항"},
-  {n:7,  city:"퀘벡시티",      date:"12/12–14",    lat:46.81,  lng:-71.21, desc:"북미에서 가장 유럽적인 성곽 도시 2박 — 독일식 크리스마스 마켓, 뒤페랭 테라스 토보건 썰매.", via:"🚗 렌터카 (몬트리올 대여)"},
-  {n:8,  city:"보스턴",        date:"12/14–17",    lat:42.36,  lng:-71.06, desc:"버몬트·화이트마운틴 설경 로드트립으로 도착. 고든콘웰(아빠의 모교)·하버드·프리덤 트레일·플리머스.", via:"🚗 퀘벡→보스턴 650km (겨울 폭풍 시 플랜B: 항공 1h)"},
-  {n:9,  city:"뉴욕",          date:"12/17–20",    lat:40.71,  lng:-74.01, desc:"성탄 절정의 뉴욕 3박 — 록펠러 트리, 자유의 여신상. 12/19 주일: 리디머 교회.", via:"🚂 보스턴→뉴욕 Amtrak 4h"},
-  {n:10, city:"런던",          date:"12/20–23",    lat:51.51,  lng:-0.13,  desc:"웨스트민스터·웨슬리 채플·대영박물관. 12월 셋째 주 캐럴 예배 시즌.", via:"✈ Norse (JFK→LGW 야간, 성수기 — 최우선 발권)"},
-  {n:11, city:"로마",          date:"12/23–27",    lat:41.90,  lng:12.50,  desc:"성탄을 로마에서 — 12/24 성 베드로 대성당 전야 미사(사전 신청). 카타콤·세 분수·성 밖 성 바오로.", via:"✈ 런던발"},
-  {n:12, city:"제네바",        date:"12/27–28",    lat:46.20,  lng:6.14,   desc:"칼뱅의 생피에르 대성당·종교개혁 기념비·종교개혁 박물관. 호텔 투숙객 무료 교통카드.", via:"✈ 로마발"},
-  {n:13, city:"취리히",        date:"12/28–29",    lat:47.37,  lng:8.54,   desc:"츠빙글리의 그로스뮌스터. 여기서 기차로 독일 북상 시작.", via:"🚂 제네바→취리히"},
-  {n:14, city:"루터 로드",     date:"12/29–31",    lat:50.98,  lng:10.31,  desc:"보름스(제국의회) → 바르트부르크 성(성경 번역) → 바흐 생가 → 에르푸르트 수도원(게스트하우스 숙박) → 비텐베르크(95개조).", via:"🚂 독일 기차 (아이 둘 무료)"},
-  {n:15, city:"베를린",        date:"12/31–1/3",   lat:52.52,  lng:13.40,  desc:"새해 전야를 브란덴부르크 문에서. 1/2 주일: 본회퍼의 도시에서 새해 첫 예배 + 본회퍼 하우스.", via:"🚂 비텐베르크→베를린 1.5h"},
-  {n:16, city:"아테네",        date:"1/3–5",       lat:37.98,  lng:23.73,  desc:"아레오바고 언덕(행 17장)·아크로폴리스, 고린도 당일 왕복.", via:"✈ 베를린발"},
-  {n:17, city:"에베소·이즈미르",date:"1/5–7",      lat:38.42,  lng:27.14,  desc:"에베소 유적·서머나, 반나절 사데 — 계시록 일곱 교회 세 곳. 1월 지중해는 온화.", via:"✈ 아테네발"},
-  {n:18, city:"이스탄불",      date:"1/7–9",       lat:41.01,  lng:28.98,  desc:"성 소피아·코라 모자이크·지하 저수조. 여정의 마무리.", via:"✈ 이즈미르발 국내선"},
-  {n:19, city:"인천 도착",     date:"1/9–10",      lat:37.46,  lng:126.44, desc:"터키항공 직항으로 귀국 — 지구 한 바퀴 완성. 1/10 저녁 인천.", via:"✈ 이스탄불→인천 직항"},
+  {n:0,  city:"인천 출발",     date:"12/2",        lat:37.46,  lng:126.44, desc:"40일 여정의 시작. 가족 4인, 동쪽으로 출발.", via:"", dur:""},
+  {n:1,  city:"도쿄",          date:"12/2–4",      lat:35.68,  lng:139.77, desc:"태평양 횡단 전 2박 — 휴식과 시차 분할 적응. 저녁엔 teamLab.", via:"✈ 인천→나리타 (제주항공·ZIPAIR)", dur:"2시간 20분"},
+  {n:2,  city:"밴쿠버",        date:"12/4–5",      lat:49.28,  lng:-123.12, desc:"오전 도착, 1박 완충 — 저녁엔 카필라노 캐년 라이츠 일루미네이션.", via:"✈ ZIPAIR 직항 (딸 U6 요금)", dur:"8시간 30분"},
+  {n:3,  city:"옐로나이프",    date:"12/5–8",      lat:62.45,  lng:-114.37, desc:"오로라 3박 — 밤은 난방 티피에서 오로라, 낮은 개썰매. 12/5 주일: 오로라 아래 가족예배.", via:"✈ 밴쿠버발 (경유 포함)", dur:"약 4시간 30분"},
+  {n:4,  city:"라스베가스",    date:"12/8–9",      lat:36.17,  lng:-115.14, desc:"그랜드캐년 관문 1박. 12월 평일 초저가.", via:"✈ 캘거리 경유", dur:"약 5시간 30분"},
+  {n:5,  city:"그랜드캐년",    date:"12/9–11",     lat:36.06,  lng:-112.14, desc:"눈 덮인 사우스림 2박 — 일출은 매더 포인트, 아이들은 주니어 레인저 배지. 복귀길 Route 66 셀리그먼.", via:"🚗 렌터카", dur:"4시간 30분"},
+  {n:6,  city:"몬트리올",      date:"12/11–12",    lat:45.50,  lng:-73.57, desc:"1박 — 노트르담 대성당. 12/12 주일예배 후 퀘벡으로. 보유 포인트 44k로 숙박 커버.", via:"✈ 라스베가스발 직항", dur:"4시간 40분"},
+  {n:7,  city:"퀘벡시티",      date:"12/12–14",    lat:46.81,  lng:-71.21, desc:"북미에서 가장 유럽적인 성곽 도시 2박 — 독일식 크리스마스 마켓, 뒤페랭 테라스 토보건 썰매.", via:"🚗 렌터카 (몬트리올 대여)", dur:"3시간"},
+  {n:8,  city:"보스턴",        date:"12/14–17",    lat:42.36,  lng:-71.06, desc:"버몬트·화이트마운틴 설경 로드트립으로 도착. 고든콘웰(아빠의 모교)·하버드·프리덤 트레일·플리머스.", via:"🚗 로드트립 650km (폭풍 시 플랜B: 항공 1h)", dur:"6시간 30분"},
+  {n:9,  city:"뉴욕",          date:"12/17–20",    lat:40.71,  lng:-74.01, desc:"성탄 절정의 뉴욕 3박 — 록펠러 트리, 자유의 여신상. 12/19 주일: 리디머 교회.", via:"🚂 Amtrak", dur:"4시간"},
+  {n:10, city:"런던",          date:"12/20–23",    lat:51.51,  lng:-0.13,  desc:"웨스트민스터·웨슬리 채플·대영박물관. 12월 셋째 주 캐럴 예배 시즌.", via:"✈ Norse 야간편 (성수기 — 최우선 발권)", dur:"7시간"},
+  {n:11, city:"로마",          date:"12/23–27",    lat:41.90,  lng:12.50,  desc:"성탄을 로마에서 — 12/24 성 베드로 대성당 전야 미사(사전 신청). 카타콤·세 분수·성 밖 성 바오로.", via:"✈ 런던발", dur:"2시간 30분"},
+  {n:12, city:"제네바",        date:"12/27–28",    lat:46.20,  lng:6.14,   desc:"칼뱅의 생피에르 대성당·종교개혁 기념비·종교개혁 박물관. 호텔 투숙객 무료 교통카드.", via:"✈ 로마발", dur:"1시간 30분"},
+  {n:13, city:"취리히",        date:"12/28–29",    lat:47.37,  lng:8.54,   desc:"츠빙글리의 그로스뮌스터. 여기서 기차로 독일 북상 시작.", via:"🚂 기차", dur:"3시간"},
+  {n:14, city:"루터 로드",     date:"12/29–31",    lat:50.98,  lng:10.31,  desc:"보름스(제국의회) → 바르트부르크 성(성경 번역) → 바흐 생가 → 에르푸르트 수도원(게스트하우스 숙박) → 비텐베르크(95개조).", via:"🚂 독일 기차 (아이 둘 무료)", dur:"약 4시간"},
+  {n:15, city:"베를린",        date:"12/31–1/3",   lat:52.52,  lng:13.40,  desc:"새해 전야를 브란덴부르크 문에서. 1/2 주일: 본회퍼의 도시에서 새해 첫 예배 + 본회퍼 하우스.", via:"🚂 비텐베르크발", dur:"1시간 30분"},
+  {n:16, city:"아테네",        date:"1/3–5",       lat:37.98,  lng:23.73,  desc:"아레오바고 언덕(행 17장)·아크로폴리스, 고린도 당일 왕복.", via:"✈ 베를린발", dur:"3시간"},
+  {n:17, city:"에베소·이즈미르",date:"1/5–7",      lat:38.42,  lng:27.14,  desc:"에베소 유적·서머나, 반나절 사데 — 계시록 일곱 교회 세 곳. 1월 지중해는 온화.", via:"✈ 아테네발", dur:"1시간 20분"},
+  {n:18, city:"이스탄불",      date:"1/7–9",       lat:41.01,  lng:28.98,  desc:"성 소피아·코라 모자이크·지하 저수조. 여정의 마무리.", via:"✈ 국내선", dur:"1시간 10분"},
+  {n:19, city:"인천 도착",     date:"1/9–10",      lat:37.46,  lng:126.44, desc:"터키항공 직항으로 귀국 — 지구 한 바퀴 완성. 1/10 저녁 인천.", via:"✈ 이스탄불→인천 직항", dur:"9시간 30분"},
 ];
 
 // 이동 수단: 출발 스톱 인덱스 기준 (g = 지상)
@@ -139,7 +139,8 @@ for (let i=0; i<STOPS.length-1; i++){
     startLat:a.lat, startLng:a.lng, endLat:b.lat, endLng:b.lng,
     color: ground ? ["#e0b45a","#e0b45a"] : ["#37c8a8","#67e8c8"],
     stroke: ground ? 0.55 : 0.75,
-    alt: ground ? 0.03 : undefined
+    alt: ground ? 0.03 : undefined,
+    label: `${a.city} → ${b.city} · ${ground ? '🚗🚂' : '✈'} ${b.dur}`
   });
 }
 
@@ -156,6 +157,8 @@ const world = Globe()(document.getElementById('globe'))
   .arcDashLength(0.45)
   .arcDashGap(0.18)
   .arcDashAnimateTime(2600)
+  .arcLabel('label')
+  .arcsTransitionDuration(0)
   .pointsData(STOPS)
   .pointLat('lat').pointLng('lng')
   .pointColor(() => '#ffffff')
@@ -189,7 +192,7 @@ STOPS.forEach(s => {
   const el = document.createElement('div');
   el.className = 'stop'; el.id = 'stop-'+s.n; el.tabIndex = 0;
   el.innerHTML = `<div class="n">${s.n===0?'출':(s.n===19?'귀':s.n)}</div>
-    <div><div class="d">${s.date}</div><div class="c">${s.city}</div><div class="m">${s.via || '여정의 시작'}</div></div>`;
+    <div><div class="d">${s.date}</div><div class="c">${s.city}</div><div class="m">${s.via ? s.via + (s.dur ? ' · <b>' + s.dur + '</b>' : '') : '여정의 시작'}</div></div>`;
   el.addEventListener('click', () => select(s.n));
   el.addEventListener('keydown', e => { if(e.key==='Enter'||e.key===' '){ e.preventDefault(); select(s.n);} });
   stopsEl.appendChild(el);
@@ -207,7 +210,7 @@ function select(n){
   document.getElementById('cardDate').textContent = `2027–28 · ${s.date}`;
   document.getElementById('cardCity').textContent = s.city;
   document.getElementById('cardDesc').textContent = s.desc;
-  document.getElementById('cardVia').textContent = s.via || '인천공항에서 출발';
+  document.getElementById('cardVia').textContent = (s.via || '인천공항에서 출발') + (s.dur ? ' · 이동 ' + s.dur : '');
   card.classList.add('show');
 }
 document.getElementById('cardClose').addEventListener('click', () => card.classList.remove('show'));
