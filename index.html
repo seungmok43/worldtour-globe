@@ -8,7 +8,7 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@700&family=Noto+Sans+KR:wght@400;500;700&display=swap">
 <style>
   :root{
-    --bg:#070b14; --panel:rgba(13,18,30,.88); --ink:#e8e6dd; --muted:#8b93a3;
+    --bg:#070b14; --panel:rgba(13,18,30,.9); --ink:#e8e6dd; --muted:#8b93a3;
     --teal:#37c8a8; --gold:#e0b45a; --line:rgba(255,255,255,.08);
   }
   *{box-sizing:border-box; margin:0}
@@ -28,8 +28,10 @@
   header .legend{margin-left:auto; font-size:.78rem; color:var(--muted); display:flex; gap:14px}
   .legend i{display:inline-block; width:18px; height:3px; border-radius:2px; vertical-align:middle; margin-right:5px}
   .legend .f i{background:var(--teal)} .legend .g i{background:var(--gold)}
+
+  /* 좌측 여정 목록 */
   #panel{
-    position:absolute; z-index:6; top:76px; bottom:16px; left:16px; width:300px;
+    position:absolute; z-index:50; top:76px; bottom:16px; left:16px; width:280px;
     background:var(--panel); backdrop-filter:blur(8px);
     border:1px solid var(--line); border-radius:12px;
     display:flex; flex-direction:column; overflow:hidden;
@@ -49,32 +51,57 @@
   }
   .stop .d{font-size:.72rem; color:var(--gold); font-variant-numeric:tabular-nums; letter-spacing:.04em}
   .stop .c{font-size:.92rem; font-weight:700}
-  .stop .m{font-size:.75rem; color:var(--muted); line-height:1.5}
-  #card{
-    position:absolute; z-index:6; right:16px; bottom:16px; width:min(340px, calc(100vw - 32px));
-    background:var(--panel); backdrop-filter:blur(8px);
-    border:1px solid var(--line); border-radius:12px; padding:16px 18px;
-    display:none;
+  .stop .m{font-size:.74rem; color:var(--muted); line-height:1.5}
+
+  /* 우측 상세 드로어 */
+  #drawer{
+    position:absolute; z-index:60; top:76px; bottom:16px; right:16px; width:360px;
+    background:var(--panel); backdrop-filter:blur(10px);
+    border:1px solid var(--line); border-radius:12px;
+    display:flex; flex-direction:column; overflow:hidden;
+    transform:translateX(calc(100% + 24px)); transition:transform .35s cubic-bezier(.2,.8,.2,1);
   }
-  #card.show{display:block}
-  #card .d{font-size:.75rem; color:var(--gold); letter-spacing:.06em; font-variant-numeric:tabular-nums}
-  #card h3{font-family:'Gowun Batang',serif; font-size:1.25rem; margin:.15em 0 .3em}
-  #card p{font-size:.85rem; color:var(--ink); line-height:1.65}
-  #card .via{font-size:.76rem; color:var(--muted); margin-top:.6em; padding-top:.6em; border-top:1px solid var(--line)}
-  #card button{
-    position:absolute; top:8px; right:10px; background:none; border:none; color:var(--muted);
-    font-size:1.1rem; cursor:pointer; padding:4px;
+  #drawer.show{transform:translateX(0)}
+  #drawer .head{padding:18px 20px 12px; border-bottom:1px solid var(--line); position:relative}
+  #drawer .head .d{font-size:.75rem; color:var(--gold); letter-spacing:.06em; font-variant-numeric:tabular-nums}
+  #drawer .head h3{font-family:'Gowun Batang',serif; font-size:1.4rem; margin:.1em 0 .25em}
+  #drawer .head .via{font-size:.78rem; color:var(--muted)}
+  #drawer .body{overflow-y:auto; padding:14px 20px 20px; scrollbar-width:thin; flex:1}
+  .sec{margin-bottom:16px}
+  .sec .t{font-size:.75rem; letter-spacing:.12em; color:var(--muted); font-weight:700; margin-bottom:6px}
+  .sec p{font-size:.86rem; line-height:1.7}
+  .stay{
+    background:rgba(55,200,168,.08); border:1px solid rgba(55,200,168,.25);
+    border-radius:10px; padding:12px 14px;
   }
-  #card button:focus-visible{outline:2px solid var(--teal)}
-  @media (max-width:720px){
-    #panel{top:auto; left:8px; right:8px; bottom:8px; width:auto; height:158px}
-    #stops{display:flex; overflow-x:auto; overflow-y:hidden; gap:8px; padding:0 10px 10px}
-    .stop{flex:0 0 190px; flex-direction:column; gap:4px}
-    .stop .n{display:none}
-    #card{bottom:178px}
-    header{padding:12px 14px} header h1{font-size:1.1rem} header .legend{display:none}
+  .stay .nm{font-weight:700; font-size:.92rem; margin-bottom:2px}
+  .stay .pr{color:var(--teal); font-weight:700; font-size:.88rem; font-variant-numeric:tabular-nums}
+  .stay .nt{font-size:.78rem; color:var(--muted); margin-top:5px; line-height:1.6}
+  .todo{list-style:none; padding:0}
+  .todo li{
+    font-size:.85rem; line-height:1.6; padding:5px 0 5px 20px; position:relative;
+    border-bottom:1px dashed var(--line);
   }
-  @media (prefers-reduced-motion: reduce){ .stop{transition:none} }
+  .todo li:last-child{border-bottom:none}
+  .todo li::before{content:"›"; position:absolute; left:4px; color:var(--teal); font-weight:700}
+  .tipbox{
+    background:rgba(224,180,90,.08); border-left:3px solid var(--gold);
+    border-radius:0 8px 8px 0; padding:9px 12px; font-size:.8rem; line-height:1.65; color:var(--ink);
+  }
+  #drawerClose{
+    position:absolute; top:12px; right:12px; background:rgba(255,255,255,.06); border:none;
+    color:var(--muted); font-size:1rem; cursor:pointer; width:30px; height:30px; border-radius:50%;
+  }
+  #drawerClose:hover{color:var(--ink)}
+  #drawerClose:focus-visible{outline:2px solid var(--teal)}
+  .navrow{display:flex; gap:8px; padding:12px 20px; border-top:1px solid var(--line)}
+  .navrow button{
+    flex:1; background:rgba(255,255,255,.06); border:1px solid var(--line); color:var(--ink);
+    font-family:inherit; font-size:.84rem; padding:8px 10px; border-radius:8px; cursor:pointer;
+  }
+  .navrow button:hover{background:rgba(55,200,168,.15)}
+  .navrow button:disabled{opacity:.3; cursor:default}
+
   .gmarker{
     color:var(--ink); font-family:'Noto Sans KR',sans-serif; font-size:11.5px; font-weight:500;
     text-shadow:0 1px 4px rgba(0,0,0,.95), 0 0 2px rgba(0,0,0,.9);
@@ -82,6 +109,21 @@
     pointer-events:auto; user-select:none;
   }
   .gmarker:hover{color:#67e8c8}
+
+  /* 모바일: 목록은 하단 가로 스크롤, 드로어는 바텀시트 */
+  @media (max-width:820px){
+    #panel{top:auto; left:8px; right:8px; bottom:8px; width:auto; height:150px}
+    #stops{display:flex; overflow-x:auto; overflow-y:hidden; gap:8px; padding:0 10px 10px}
+    .stop{flex:0 0 185px; flex-direction:column; gap:4px}
+    .stop .n{display:none}
+    #drawer{
+      top:auto; left:8px; right:8px; bottom:166px; width:auto; max-height:58vh;
+      transform:translateY(calc(100% + 260px));
+    }
+    #drawer.show{transform:translateY(0)}
+    header{padding:12px 14px} header h1{font-size:1.1rem} header .legend{display:none}
+  }
+  @media (prefers-reduced-motion: reduce){ .stop{transition:none} #drawer{transition:none} }
 </style>
 </head>
 <body>
@@ -94,45 +136,172 @@
 <div id="globe" aria-label="세계일주 경로 3D 지구본"></div>
 
 <aside id="panel">
-  <h2>여정 — 도시를 누르면 날아갑니다</h2>
+  <h2>여정 — 도시를 누르면 상세가 열립니다</h2>
   <div id="stops"></div>
 </aside>
 
-<div id="card" role="dialog" aria-live="polite">
-  <button id="cardClose" aria-label="닫기">×</button>
-  <div class="d" id="cardDate"></div>
-  <h3 id="cardCity"></h3>
-  <p id="cardDesc"></p>
-  <div class="via" id="cardVia"></div>
-</div>
+<aside id="drawer" role="dialog" aria-live="polite" aria-label="도시 상세 정보">
+  <div class="head">
+    <button id="drawerClose" aria-label="닫기">×</button>
+    <div class="d" id="dDate"></div>
+    <h3 id="dCity"></h3>
+    <div class="via" id="dVia"></div>
+  </div>
+  <div class="body">
+    <div class="sec" id="secDesc"><p id="dDesc"></p></div>
+    <div class="sec" id="secStay">
+      <div class="t">🛏 숙소</div>
+      <div class="stay">
+        <div class="nm" id="dStayName"></div>
+        <div class="pr" id="dStayPrice"></div>
+        <div class="nt" id="dStayNote"></div>
+      </div>
+    </div>
+    <div class="sec" id="secTodo">
+      <div class="t">📍 이 도시에서</div>
+      <ul class="todo" id="dTodo"></ul>
+    </div>
+    <div class="sec" id="secTip">
+      <div class="t">💡 팁</div>
+      <div class="tipbox" id="dTip"></div>
+    </div>
+  </div>
+  <div class="navrow">
+    <button id="btnPrev">← 이전 도시</button>
+    <button id="btnNext">다음 도시 →</button>
+  </div>
+</aside>
 
 <script src="https://cdn.jsdelivr.net/npm/globe.gl@2.32.3/dist/globe.gl.min.js"></script>
 <script>
 const STOPS = [
-  {n:0,  city:"인천 출발",     date:"12/5",     lat:37.46,  lng:126.44, desc:"43일 여정의 시작. 가족 4인, 동쪽으로 출발 (주일 오후·저녁 편).", via:"", dur:""},
-  {n:1,  city:"도쿄",          date:"12/5–7",   lat:35.68,  lng:139.77, desc:"태평양 횡단 전 2박 — 휴식과 시차 분할 적응. 저녁엔 teamLab.", via:"✈ 인천→나리타 (제주항공·ZIPAIR)", dur:"2시간 20분"},
-  {n:2,  city:"밴쿠버",        date:"12/7–8",   lat:49.28,  lng:-123.12, desc:"오전 도착, 1박 완충 — 저녁엔 카필라노 캐년 라이츠 일루미네이션.", via:"✈ ZIPAIR 직항 (딸 U6 요금)", dur:"8시간 30분"},
-  {n:3,  city:"옐로나이프",    date:"12/8–11",  lat:62.45,  lng:-114.37, desc:"오로라 3박 — 밤은 난방 티피에서 오로라, 낮은 개썰매. 겨울 3박 관측 확률 최상.", via:"✈ 밴쿠버발 (경유 포함)", dur:"약 4시간 30분"},
-  {n:4,  city:"몬트리올",      date:"12/11–12", lat:45.50,  lng:-73.57, desc:"1박 — 노트르담 대성당. 12/12 주일예배 후 퀘벡으로. 보유 포인트 44k로 숙박 커버.", via:"✈ 옐로나이프발 (경유)", dur:"약 5시간"},
-  {n:5,  city:"퀘벡시티",      date:"12/12–14", lat:46.81,  lng:-71.21, desc:"북미에서 가장 유럽적인 성곽 도시 2박 — 독일식 크리스마스 마켓, 토보건 썰매.", via:"🚗 렌터카 (몬트리올 대여)", dur:"3시간"},
-  {n:6,  city:"보스턴",        date:"12/14–17", lat:42.36,  lng:-71.06, desc:"버몬트·화이트마운틴 설경 로드트립으로 도착. 고든콘웰(아빠의 모교)·하버드·플리머스.", via:"🚗 로드트립 650km (폭풍 시 항공 1h)", dur:"6시간 30분"},
-  {n:7,  city:"워싱턴 DC",     date:"12/17–20", lat:38.90,  lng:-77.04, desc:"스미소니언 무료 박물관(항공우주!)·성경박물관·내셔널 몰 성탄 장식. 12/19 주일: 내셔널 대성당.", via:"✈ 보스턴발", dur:"1시간 40분"},
-  {n:8,  city:"런던",          date:"12/20–23", lat:51.51,  lng:-0.13,  desc:"웨스트민스터·웨슬리 채플·대영박물관. 캐럴 예배 시즌.", via:"✈ Norse 야간편 (덜레스발, 성수기 — 최우선 발권)", dur:"7시간"},
-  {n:9,  city:"로마",          date:"12/23–27", lat:41.90,  lng:12.50,  desc:"성탄을 로마에서 — 12/24 성 베드로 대성당 전야 미사(사전 신청). 카타콤·성 밖 성 바오로.", via:"✈ 런던발", dur:"2시간 30분"},
-  {n:10, city:"제네바·취리히", date:"12/27–29", lat:46.20,  lng:6.14,   desc:"칼뱅의 생피에르 대성당·종교개혁 기념비 → 기차로 취리히(츠빙글리).", via:"✈ 로마발", dur:"1시간 30분"},
-  {n:11, city:"루터 로드",     date:"12/29–31", lat:50.98,  lng:10.31,  desc:"보름스(제국의회) → 바르트부르크 성(성경 번역) → 바흐 생가 → 에르푸르트 수도원 숙박 → 비텐베르크(95개조).", via:"🚂 독일 기차 (아이 둘 무료)", dur:"약 4시간"},
-  {n:12, city:"베를린",        date:"12/31–1/3",lat:52.52,  lng:13.40,  desc:"새해 전야를 브란덴부르크 문에서. 1/2 주일: 본회퍼의 도시에서 새해 첫 예배.", via:"🚂 비텐베르크발", dur:"1시간 30분"},
-  {n:13, city:"프라하",        date:"1/3–5",    lat:50.09,  lng:14.42,  desc:"얀 후스의 도시 — 루터보다 100년 앞선 종교개혁의 뿌리. 베들레헴 채플·카를 교·주현절까지 열린 마켓.", via:"🚂 베를린→프라하 기차", dur:"4시간"},
-  {n:14, city:"아테네",        date:"1/5–7",    lat:37.98,  lng:23.73,  desc:"아레오바고 언덕(행 17장)·아크로폴리스, 고린도 당일 왕복.", via:"✈ 프라하발", dur:"2시간 30분"},
-  {n:15, city:"에베소·이즈미르",date:"1/7–9",   lat:38.42,  lng:27.14,  desc:"에베소 유적·반나절 사데 — 계시록 일곱 교회 세 곳. 1/9 주일: 서머나의 도시에서 예배.", via:"✈ 아테네발", dur:"1시간 20분"},
-  {n:16, city:"이스탄불",      date:"1/9–11",   lat:41.01,  lng:28.98,  desc:"성 소피아·코라 모자이크·지하 저수조.", via:"✈ 국내선", dur:"1시간 10분"},
-  {n:17, city:"암만",          date:"1/11–12",  lat:31.95,  lng:35.93,  desc:"1박 후 마다바 → 느보산(모세가 약속의 땅을 바라본 곳) → 요단강 베다니 세례터 → 사해.", via:"✈ 이스탄불발", dur:"2시간"},
-  {n:18, city:"페트라",        date:"1/12–14",  lat:30.32,  lng:35.48,  desc:"2박 — 1/13 페트라 풀데이: 시크 협곡과 알카즈네. 만 12세 이하 무료, 1월은 인파 없음.", via:"🚗 전용차량", dur:"3시간"},
-  {n:19, city:"와디럼",        date:"1/14–15",  lat:29.58,  lng:35.42,  desc:"베드윈 캠프 1박 — 사막의 별하늘 아래 여정의 마지막 가족예배.", via:"🚗 전용차량", dur:"1시간 40분"},
-  {n:20, city:"인천 도착",     date:"1/15–16",  lat:37.46,  lng:126.44, desc:"암만에서 경유편으로 귀국 — 지구 한 바퀴 완성. 1/16 인천 도착.", via:"✈ 암만→인천 (이스탄불/도하 경유)", dur:"약 14시간"},
+  {n:0, city:"인천 출발", date:"12/5", lat:37.46, lng:126.44,
+   desc:"43일 여정의 시작. 가족 4인, 동쪽으로 지구 한 바퀴를 떠납니다.",
+   via:"", dur:"", stay:null,
+   todo:["여권 4권(딸은 한국+미국 2권)·ESTA·eTA·ETA 최종 확인","국제운전면허증 2매, 부스터시트","출발일이 주일 — 오후·저녁 편으로"],
+   tip:"환전은 최소로 — 수수료 0 트래블 체크카드가 기본 결제."},
+  {n:1, city:"도쿄", date:"12/5–7", lat:35.68, lng:139.77,
+   desc:"태평양 횡단 전 2박 — 휴식과 시차 분할 적응.",
+   via:"✈ 인천→나리타 (제주항공·ZIPAIR)", dur:"2시간 20분",
+   stay:{name:"MIMARU 우에노/아사쿠사", price:"1박 18–22만원", note:"4인 가족 특화 아파트호텔 — 침대 4개·주방. 일본 가족여행 숙소의 표준."},
+   todo:["teamLab 몰입형 전시 (저녁, 아이들 최고)","아사쿠사 센소지·나카미세 거리","우에노 공원 산책"],
+   tip:"무리한 일정 금지 — 이 이틀의 목적은 시차 적응입니다."},
+  {n:2, city:"밴쿠버", date:"12/7–8", lat:49.28, lng:-123.12,
+   desc:"오전 도착, 1박 완충 — 오로라 관측 전 체력을 만드는 밤.",
+   via:"✈ ZIPAIR 직항 (딸 U6 요금)", dur:"8시간 30분",
+   stay:{name:"Residence Inn 다운타운 (Marriott)", price:"1박 20–25만원", note:"주방 딸린 스위트 · Bonvoy 골드 적립 + 2시 레이트 체크아웃."},
+   todo:["카필라노 서스펜션 브리지 캐년 라이츠 (12월 야간 일루미네이션)","개스타운 증기시계"],
+   tip:"오전 도착 — 낮잠을 참고 저녁까지 버텨야 시차가 잡힙니다."},
+  {n:3, city:"옐로나이프", date:"12/8–11", lat:62.45, lng:-114.37,
+   desc:"오로라 3박 — 밤은 난방 티피에서 하늘을, 낮은 개썰매를. \"하늘이 하나님의 영광을 선포하고\"(시 19편).",
+   via:"✈ 밴쿠버발 (경유 포함)", dur:"약 4시간 30분",
+   stay:{name:"The Explorer Hotel 또는 Days Inn", price:"1박 22–28만원", note:"오로라 투어 픽업 거점 호텔 · Days Inn은 Wyndham 적립. 방이 적어 9월 중 예약."},
+   todo:["오로라 관측 투어 2회 밤 (Aurora Village — 방한복 대여 포함)","낮 개썰매 체험 (9살·6살 평생 기억)","오로라 아래 가족예배"],
+   tip:"영하 20~30℃ — 초방한복은 사지 말고 투어사에서 대여. 관측은 밤 10시~새벽이라 낮에 아이들 낮잠 필수."},
+  {n:4, city:"몬트리올", date:"12/11–12", lat:45.50, lng:-73.57,
+   desc:"캐나다 동부의 관문 1박 — 12/12 주일예배 후 퀘벡으로.",
+   via:"✈ 옐로나이프발 (경유)", dur:"약 5시간",
+   stay:{name:"Courtyard/Fairfield (Marriott)", price:"보유 포인트 44,192로 무료", note:"Bonvoy 포인트 숙박으로 확정 — 현금 0원."},
+   todo:["노트르담 대성당","12/12 주일: 몬트리올 한인교회 예배","오후 렌터카 개시 → 퀘벡으로 (3시간)"],
+   tip:"렌터카는 국경 통과·보스턴 편도 반납 가능 업체로 (Avis·Hertz 등, 편도비 30–50만 각오). 퀘벡주는 12월 스노타이어 법정 의무 — 렌터카 기본 장착."},
+  {n:5, city:"퀘벡시티", date:"12/12–14", lat:46.81, lng:-71.21,
+   desc:"북미에서 가장 유럽적인 성곽 도시 — 크리스마스 마켓의 절정.",
+   via:"🚗 렌터카 (몬트리올 대여)", dur:"3시간",
+   stay:{name:"Delta Hotels Québec (Marriott)", price:"1박 17–22만원", note:"성곽·마켓 도보권, 2퀸룸 · 무료숙박권 사용 후보. 기념 승격: 샤토 프롱트낙(Fairmont)."},
+   todo:["구시가 독일식 크리스마스 마켓","뒤페랭 테라스 토보건 썰매 (1884년부터의 겨울 명물)","프티 샹플랭 거리 — 북미에서 가장 아름다운 겨울 골목"],
+   tip:"12/14 보스턴행 로드트립은 출발 3일 전 예보 확인 — 폭풍이면 항공 1시간(4인 ~70만)으로 전환."},
+  {n:6, city:"보스턴", date:"12/14–17", lat:42.36, lng:-71.06,
+   desc:"버몬트·화이트마운틴 설경을 지나 도착하는 필그림과 아버지의 도시.",
+   via:"🚗 로드트립 650km (폭풍 시 항공 1h)", dur:"6시간 30분",
+   stay:{name:"★ 고든콘웰 캠퍼스 게스트하우징 — 2베드룸 아파트", price:"1박 $85 (~12만원) — 시내 반값", note:"퀸+트윈2·주방·욕실, 4인 정원. 아버지가 공부한 캠퍼스에서 3박. 예약: 캠퍼스 Cloudbeds 예약창 또는 guesthousing@gordonconwell.edu · 해밀턴역→보스턴 노스역 통근열차 50분."},
+   todo:["고든콘웰 캠퍼스 — 아빠의 유학 시절 걷기 (12/15)","하버드(1636년 청교도 목회자 양성 설립)·프리덤 트레일·올드노스교회","플리머스 — 필그림 상륙지·메이플라워 II 승선"],
+   tip:"렌터카는 12/17 보스턴 반납 — 캠퍼스 체류 중엔 차가 있어 근교 이동이 자유롭습니다."},
+  {n:7, city:"워싱턴 DC", date:"12/17–20", lat:38.90, lng:-77.04,
+   desc:"무료 박물관의 수도 — 성탄 장식의 내셔널 몰.",
+   via:"✈ 보스턴발", dur:"1시간 40분",
+   stay:{name:"Courtyard/Residence Inn 알링턴·크리스탈시티", price:"1박 17–22만원", note:"지하철로 내셔널 몰 직행 · DC 시내보다 저렴 · Bonvoy 적립."},
+   todo:["스미소니언 항공우주박물관 (무료 — 아들의 날)","성경박물관 (Museum of the Bible)","링컨 기념관·내셔널 몰 성탄 장식","12/19 주일: 내셔널 대성당 (캐럴 시즌)"],
+   tip:"12/20 밤 덜레스발 런던행 — 이 여정 유일의 성수기 장거리라 가장 먼저 발권할 구간입니다."},
+  {n:8, city:"런던", date:"12/20–23", lat:51.51, lng:-0.13,
+   desc:"성탄 직전의 런던 — 캐럴 예배의 시즌.",
+   via:"✈ Norse 야간편 (덜레스발, 성수기)", dur:"7시간",
+   stay:{name:"Premier Inn 패밀리룸 (County Hall/Southwark)", price:"1박 22–28만원", note:"런던에서 4인 한 방의 사실상 유일한 가성비 답 — 빅벤 도보권."},
+   todo:["웨스트민스터 사원","존 웨슬리 채플 & 생가","대영박물관 성경 유물관 (앗수르·바벨론 실물)","캐럴 예배 (Nine Lessons & Carols — 일정 확인)"],
+   tip:"12월 셋째 주 런던은 일루미네이션 절정 — 저녁 옥스퍼드/리젠트 스트리트 산책."},
+  {n:9, city:"로마", date:"12/23–27", lat:41.90, lng:12.50,
+   desc:"성탄을 로마에서 — 초대교회의 카타콤에서 베드로 대성당까지.",
+   via:"✈ 런던발", dur:"2시간 30분",
+   stay:{name:"Aparthotel Adagio Rome Vatican (Accor)", price:"1박 17–22만원", note:"바티칸 도보권 · 주방 필수 — 성탄 연휴(24~26일) 식당 휴무 대비 취사."},
+   todo:["12/24 성 베드로 대성당 성탄 전야 미사 (무료 · 수개월 전 사전 신청 필수)","바티칸 박물관·시스티나 (사전예약)","카타콤 — 초대교회의 지하 예배처","성 밖 성 바오로 대성당 (바울의 무덤) — 12/26 주일","콜로세움·마메르티노 감옥"],
+   tip:"성탄 당일(25일)은 대부분 휴무 — 광장 산책과 가족 시간으로 비워두세요."},
+  {n:10, city:"제네바·취리히", date:"12/27–29", lat:46.20, lng:6.14,
+   desc:"칼뱅과 츠빙글리 — 종교개혁의 스위스.",
+   via:"✈ 로마발", dur:"1시간 30분",
+   stay:{name:"ibis/Novotel (Accor)", price:"1박 22–28만원", note:"제네바는 호텔 투숙객에게 무료 대중교통 카드 제공 — 체크인 시 수령."},
+   todo:["생피에르 대성당 — 칼뱅의 강단과 의자","종교개혁 기념비 (칼뱅·파렐·베즈·녹스)","국제 종교개혁 박물관(MIR)","기차로 취리히 — 그로스뮌스터 (츠빙글리)"],
+   tip:"스위스 물가는 유럽 최고 — 식사는 코옵/미그로 마트 활용이 정석."},
+  {n:11, city:"루터 로드", date:"12/29–31", lat:50.98, lng:10.31,
+   desc:"보름스에서 비텐베르크까지 — 종교개혁의 길을 기차로.",
+   via:"🚂 독일 기차 (아이 둘 무료)", dur:"약 4시간",
+   stay:{name:"★ 에르푸르트 어거스틴 수도원 게스트하우스", price:"1박 12–18만원", note:"루터가 수도사로 살던 바로 그 수도원에서의 하룻밤 — 이 여정 숙박의 백미. 방이 적어 조기 예약 필수. 보름스는 ibis."},
+   todo:["보름스 — 1521 제국의회 현장 (\"내가 여기 서 있나이다\")","아이제나흐 바르트부르크 성 — 성경 번역의 골방","바흐 생가 박물관 (같은 도시!)","에르푸르트 수도원 — 수도사 루터의 방","12/31 비텐베르크 — 95개조의 성문교회"],
+   tip:"독일 기차는 만 4–11세 동반 무료 — 두 아이 모두 공짜."},
+  {n:12, city:"베를린", date:"12/31–1/3", lat:52.52, lng:13.40,
+   desc:"새해 전야를 브란덴부르크 문에서 — 본회퍼의 도시에서 새해 첫 주일.",
+   via:"🚂 비텐베르크발", dur:"1시간 30분",
+   stay:{name:"Motel One 또는 Adina 아파트 (미테)", price:"1박 14–18만원", note:"브란덴부르크 새해 불꽃 동선 도보·대중교통권."},
+   todo:["12/31 브란덴부르크 문 새해 전야","본회퍼 하우스","1/2 주일: 치온교회(본회퍼 사역지) 또는 베를린 돔 예배","이스트사이드 갤러리·박물관 섬"],
+   tip:"1/1은 유럽 전체가 휴무 — 안식과 산책의 날로."},
+  {n:13, city:"프라하", date:"1/3–5", lat:50.09, lng:14.42,
+   desc:"얀 후스의 도시 — 루터보다 100년 앞선 종교개혁의 뿌리.",
+   via:"🚂 베를린→프라하 기차", dur:"4시간",
+   stay:{name:"구시가/말라스트라나 아파트", price:"1박 12–16만원", note:"마켓·카를 교 도보권 · 프라하 물가는 서유럽의 60~70%."},
+   todo:["베들레헴 채플 — 후스의 강단","구시가 광장 후스 동상 + 크리스마스 마켓 (주현절 1/6까지!)","카를 교 — 눈 덮인 아침이 백미","프라하 성·성 비투스 대성당"],
+   tip:"독일에서 놓친 크리스마스 마켓을 여기서 채웁니다 — 유럽에서 1월에도 열리는 거의 유일한 마켓."},
+  {n:14, city:"아테네", date:"1/5–7", lat:37.98, lng:23.73,
+   desc:"사도 바울이 서 있던 아레오바고 언덕으로.",
+   via:"✈ 프라하발", dur:"2시간 30분",
+   stay:{name:"플라카 지구 아파트 또는 Novotel", price:"1박 12–16만원", note:"아크로폴리스 도보권 · 1월 아테네는 온화(낮 12~15℃)하고 한산."},
+   todo:["아레오바고 언덕 — 행 17장 설교의 자리","아크로폴리스·파르테논 (사전예약)","고린도 당일 왕복 — 갈리오 재판석 (고린도전·후서의 현장)"],
+   tip:"겨울 유적지는 오후 3시경 조기 폐장하는 곳이 있어 오전 방문이 안전."},
+  {n:15, city:"에베소·이즈미르", date:"1/7–9", lat:38.42, lng:27.14,
+   desc:"계시록 일곱 교회의 땅 — 에베소·서머나·사데.",
+   via:"✈ 아테네발", dur:"1시간 20분",
+   stay:{name:"Swissôtel Büyük Efes 또는 힐튼 계열", price:"1박 9–13만원", note:"터키 체인 호텔은 한국의 반값 — 가성비 최고 구간."},
+   todo:["에베소 유적 — 셀수스 도서관·대극장 (사도 바울 3차 전도여행)","반나절 사데(Sardis) — 일곱 교회 +1","1/9 주일: 서머나(계시록의 그 교회)의 도시에서 예배"],
+   tip:"에베소는 아침 일찍 — 오전 빛의 셀수스 도서관이 가장 아름답습니다."},
+  {n:16, city:"이스탄불", date:"1/9–11", lat:41.01, lng:28.98,
+   desc:"콘스탄티노플 — 초대교회 공의회의 도시.",
+   via:"✈ 국내선", dur:"1시간 10분",
+   stay:{name:"술탄아흐메트 패밀리룸 부티크", price:"1박 10–14만원", note:"성 소피아·블루모스크 도보권 — 여정의 끝은 풍경으로."},
+   todo:["성 소피아","코라(카리예) 모자이크 — 비잔틴 걸작","지하 저수조 (아이들이 좋아하는 신비의 공간)","보스포루스 유람"],
+   tip:"1월 이스탄불은 드물게 눈이 올 수 있음 — 다음 구간(요르단)이 버퍼."},
+  {n:17, city:"암만", date:"1/11–12", lat:31.95, lng:35.93,
+   desc:"요르단의 관문 — 모세의 산과 세례의 강으로 가는 길.",
+   via:"✈ 이스탄불발", dur:"2시간",
+   stay:{name:"암만 시내 호텔", price:"1박 8–14만원", note:"1박 후 전용차량으로 남하 — Jordan Pass(성인 2인)로 비자 수수료 면제."},
+   todo:["마다바 — 성지 모자이크 지도","느보산 — 모세가 약속의 땅을 바라본 곳 (신 34장)","요단강 베다니 세례터 — 예수 세례 전승지 (유네스코)","사해 부유 체험"],
+   tip:"요르단 4일은 전용차량+기사(~70만)가 정석 — 대중교통이 없는 코스입니다."},
+  {n:18, city:"페트라", date:"1/12–14", lat:30.32, lng:35.48,
+   desc:"시크 협곡 끝에서 만나는 알카즈네 — 세계 7대 불가사의.",
+   via:"🚗 전용차량", dur:"3시간",
+   stay:{name:"와디무사 게스트하우스", price:"1박 8–14만원", note:"유적 입구 도보권 — 아침 첫 입장을 위해."},
+   todo:["페트라 풀데이 — 시크 협곡·알카즈네·수도원 (만 12세 이하 무료)","이른 아침 입장 — 인파 없는 1월의 시크","당나귀·마차 옵션 (아이들 체력 배분)"],
+   tip:"수도원(Monastery)까지는 800계단 — 아이들 컨디션 봐서 알카즈네까지만도 충분합니다."},
+  {n:19, city:"와디럼", date:"1/14–15", lat:29.58, lng:35.42,
+   desc:"사막의 별하늘 아래 여정의 마지막 밤 — 마지막 가족예배.",
+   via:"🚗 전용차량", dur:"1시간 40분",
+   stay:{name:"★ 베드윈 캠프 가족 텐트", price:"1박 20–30만원 (석식·별관측 포함)", note:"밤 기온 0℃ 근처 — 난방·침구 포함 여부 예약 시 확인."},
+   todo:["지프 사막 투어 — 붉은 모래와 기암","해질녘 사막 전망","별하늘 아래 43일을 마감하는 가족예배"],
+   tip:"오로라의 하늘로 시작해 사막의 별하늘로 끝나는 여정 — 카메라 삼각대가 있으면 은하수까지."},
+  {n:20, city:"인천 도착", date:"1/15–16", lat:37.46, lng:126.44,
+   desc:"암만에서 경유편으로 귀국 — 지구 한 바퀴 완성. 1/16 인천 도착.",
+   via:"✈ 암만→인천 (이스탄불/도하 경유)", dur:"약 14시간",
+   stay:null,
+   todo:["기내에서 여정을 마감하는 가족 감사기도","귀국 직후 며칠은 일정 비워두기 (시차·회복)"],
+   tip:"사진·영상 백업을 여행 중 매일 클라우드로 — 마지막에 몰아서 하면 늦습니다."},
 ];
 
-// 지상 이동 구간: 출발 스톱 인덱스 기준
 const GROUND = new Set([4,5,10,11,12,17,18]);
 const arcs = [];
 for (let i=0; i<STOPS.length-1; i++){
@@ -179,24 +348,23 @@ const world = Globe()(document.getElementById('globe'))
   })
   .onPointClick(s => select(s.n));
 
-// 지구 뒷면 라벨 가림: 카메라와 마커의 각도로 가시성 판정
+// 지구 뒷면 라벨 가림: 지평선(cosθ = R/d) 기반
 function updateMarkerVisibility(){
   const cam = world.camera().position;
   const camLen = Math.hypot(cam.x, cam.y, cam.z) || 1;
+  const horizon = (world.getGlobeRadius() / camLen) * 0.97;
   STOPS.forEach(s => {
     if (!s._el) return;
     const p = world.getCoords(s.lat, s.lng, 0.02);
     const pLen = Math.hypot(p.x, p.y, p.z) || 1;
     const dot = (p.x*cam.x + p.y*cam.y + p.z*cam.z) / (pLen * camLen);
-    // 지평선 임계값: cosθ = R/d (카메라가 멀수록 보이는 반구가 좁아짐)
-    const horizon = (world.getGlobeRadius() / camLen) * 0.97;
     const visible = dot > horizon;
     s._el.style.opacity = visible ? 1 : 0;
     s._el.style.pointerEvents = visible ? 'auto' : 'none';
   });
 }
 world.controls().addEventListener('change', updateMarkerVisibility);
-setInterval(updateMarkerVisibility, 300); // 자동 회전·애니메이션 중에도 주기 갱신
+setInterval(updateMarkerVisibility, 300);
 
 world.controls().autoRotate = true;
 world.controls().autoRotateSpeed = 0.55;
@@ -208,6 +376,7 @@ document.getElementById('globe').addEventListener('pointerup', () => {
   idleTimer = setTimeout(() => { world.controls().autoRotate = true; }, 12000);
 });
 
+// 좌측 목록
 const stopsEl = document.getElementById('stops');
 STOPS.forEach(s => {
   const el = document.createElement('div');
@@ -219,22 +388,54 @@ STOPS.forEach(s => {
   stopsEl.appendChild(el);
 });
 
-const card = document.getElementById('card');
+// 우측 상세 드로어
+const drawer = document.getElementById('drawer');
+let current = 0;
 function select(n){
+  current = n;
   const s = STOPS[n];
   world.controls().autoRotate = false;
-  world.pointOfView({ lat: s.lat, lng: s.lng, altitude: 1.5 }, 1100);
+  world.pointOfView({ lat: s.lat, lng: s.lng - 18, altitude: 1.5 }, 1100); // 드로어에 안 가리게 살짝 왼쪽으로
   document.querySelectorAll('.stop').forEach(e => e.classList.remove('active'));
   const row = document.getElementById('stop-'+n);
   row.classList.add('active');
   row.scrollIntoView({ block:'nearest', inline:'nearest', behavior:'smooth' });
-  document.getElementById('cardDate').textContent = `2027–28 · ${s.date}`;
-  document.getElementById('cardCity').textContent = s.city;
-  document.getElementById('cardDesc').textContent = s.desc;
-  document.getElementById('cardVia').textContent = (s.via || '인천공항에서 출발') + (s.dur ? ' · 이동 ' + s.dur : '');
-  card.classList.add('show');
+
+  document.getElementById('dDate').textContent = `2027–28 · ${s.date}`;
+  document.getElementById('dCity').textContent = s.city;
+  document.getElementById('dVia').textContent = s.via ? (s.via + (s.dur ? ' · 이동 ' + s.dur : '')) : '인천공항에서 출발';
+  document.getElementById('dDesc').textContent = s.desc;
+
+  const secStay = document.getElementById('secStay');
+  if (s.stay){
+    secStay.hidden = false;
+    document.getElementById('dStayName').textContent = s.stay.name;
+    document.getElementById('dStayPrice').textContent = s.stay.price;
+    document.getElementById('dStayNote').textContent = s.stay.note;
+  } else { secStay.hidden = true; }
+
+  const todoEl = document.getElementById('dTodo');
+  todoEl.innerHTML = '';
+  (s.todo || []).forEach(t => { const li = document.createElement('li'); li.textContent = t; todoEl.appendChild(li); });
+  document.getElementById('secTodo').hidden = !(s.todo && s.todo.length);
+
+  const secTip = document.getElementById('secTip');
+  if (s.tip){ secTip.hidden = false; document.getElementById('dTip').textContent = s.tip; }
+  else { secTip.hidden = true; }
+
+  document.getElementById('btnPrev').disabled = (n === 0);
+  document.getElementById('btnNext').disabled = (n === STOPS.length - 1);
+  drawer.classList.add('show');
 }
-document.getElementById('cardClose').addEventListener('click', () => card.classList.remove('show'));
+document.getElementById('drawerClose').addEventListener('click', () => drawer.classList.remove('show'));
+document.getElementById('btnPrev').addEventListener('click', () => { if (current > 0) select(current - 1); });
+document.getElementById('btnNext').addEventListener('click', () => { if (current < STOPS.length - 1) select(current + 1); });
+document.addEventListener('keydown', e => {
+  if (!drawer.classList.contains('show')) return;
+  if (e.key === 'ArrowRight') { if (current < STOPS.length - 1) select(current + 1); }
+  if (e.key === 'ArrowLeft') { if (current > 0) select(current - 1); }
+  if (e.key === 'Escape') drawer.classList.remove('show');
+});
 
 setTimeout(() => select(0), 600);
 setTimeout(() => { world.controls().autoRotate = true; }, 4000);
