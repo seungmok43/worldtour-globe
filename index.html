@@ -77,6 +77,15 @@
   .stay .nm{font-weight:700; font-size:.92rem; margin-bottom:2px}
   .stay .pr{color:var(--teal); font-weight:700; font-size:.88rem; font-variant-numeric:tabular-nums}
   .stay .nt{font-size:.78rem; color:var(--muted); margin-top:5px; line-height:1.6}
+  .stay .links{display:flex; gap:8px; margin-top:10px; flex-wrap:wrap}
+  .stay .links a{
+    font-size:.78rem; font-weight:700; text-decoration:none; color:var(--teal);
+    background:rgba(55,200,168,.13); border:1px solid rgba(55,200,168,.3);
+    padding:5px 11px; border-radius:99px;
+  }
+  .stay .links a:hover{background:rgba(55,200,168,.25)}
+  .stay .links a.map{color:var(--gold); background:rgba(224,180,90,.1); border-color:rgba(224,180,90,.3)}
+  .stay .links a.map:hover{background:rgba(224,180,90,.2)}
   .todo{list-style:none; padding:0}
   .todo li{
     font-size:.85rem; line-height:1.6; padding:5px 0 5px 20px; position:relative;
@@ -155,6 +164,7 @@
         <div class="nm" id="dStayName"></div>
         <div class="pr" id="dStayPrice"></div>
         <div class="nt" id="dStayNote"></div>
+        <div class="links" id="dStayLinks"></div>
       </div>
     </div>
     <div class="sec" id="secTodo">
@@ -302,6 +312,29 @@ const STOPS = [
    tip:"사진·영상 백업을 여행 중 매일 클라우드로 — 마지막에 몰아서 하면 늦습니다."},
 ];
 
+// 숙소 링크: url = 공식/예약 페이지, map = 구글 지도 검색어
+const STAY_LINKS = {
+  1:{url:"https://mimaruhotels.com/", map:"MIMARU Tokyo Ueno"},
+  2:{map:"Residence Inn by Marriott Vancouver Downtown"},
+  3:{url:"https://explorerhotel.ca/", map:"The Explorer Hotel Yellowknife"},
+  4:{map:"Courtyard by Marriott Montreal Downtown"},
+  5:{map:"Delta Hotels by Marriott Quebec"},
+  6:{url:"https://hotels.cloudbeds.com/en/reservation/dOAO27/", map:"Gordon-Conwell Theological Seminary South Hamilton"},
+  7:{map:"Residence Inn by Marriott Arlington Crystal City"},
+  8:{url:"https://www.premierinn.com/", map:"Premier Inn London County Hall"},
+  9:{url:"https://all.accor.com/", map:"Aparthotel Adagio Rome Vatican"},
+  10:{url:"https://all.accor.com/", map:"Novotel Geneve Centre"},
+  11:{url:"https://augustinerkloster.de/", map:"Augustinerkloster zu Erfurt"},
+  12:{url:"https://www.motel-one.com/", map:"Motel One Berlin-Mitte"},
+  13:{url:"https://www.booking.com/searchresults.ko.html?ss=Prague+Old+Town+apartment", map:"Prague Old Town"},
+  14:{url:"https://www.booking.com/searchresults.ko.html?ss=Plaka+Athens+apartment", map:"Plaka Athens"},
+  15:{map:"Swissotel Buyuk Efes Izmir"},
+  16:{url:"https://www.booking.com/searchresults.ko.html?ss=Sultanahmet+Istanbul+family+room", map:"Sultanahmet Istanbul"},
+  17:{url:"https://www.booking.com/searchresults.ko.html?ss=Amman+hotel", map:"Amman Jordan"},
+  18:{url:"https://www.booking.com/searchresults.ko.html?ss=Wadi+Musa+guesthouse", map:"Wadi Musa Petra"},
+  19:{url:"https://www.booking.com/searchresults.ko.html?ss=Wadi+Rum+bedouin+camp", map:"Wadi Rum Village"},
+};
+
 const GROUND = new Set([4,5,10,11,12,17,18]);
 const arcs = [];
 for (let i=0; i<STOPS.length-1; i++){
@@ -412,6 +445,22 @@ function select(n){
     document.getElementById('dStayName').textContent = s.stay.name;
     document.getElementById('dStayPrice').textContent = s.stay.price;
     document.getElementById('dStayNote').textContent = s.stay.note;
+    const lk = STAY_LINKS[n] || {};
+    const linksEl = document.getElementById('dStayLinks');
+    linksEl.innerHTML = '';
+    if (lk.url){
+      const a = document.createElement('a');
+      a.href = lk.url; a.target = '_blank'; a.rel = 'noopener';
+      a.textContent = lk.url.includes('booking.com') ? '숙소 검색 ↗' : '예약·공식 사이트 ↗';
+      linksEl.appendChild(a);
+    }
+    if (lk.map){
+      const m = document.createElement('a');
+      m.href = 'https://www.google.com/maps/search/' + encodeURIComponent(lk.map);
+      m.target = '_blank'; m.rel = 'noopener'; m.className = 'map';
+      m.textContent = '지도에서 보기 📍';
+      linksEl.appendChild(m);
+    }
   } else { secStay.hidden = true; }
 
   const todoEl = document.getElementById('dTodo');
