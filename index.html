@@ -93,6 +93,10 @@
   }
   .todo li:last-child{border-bottom:none}
   .todo li::before{content:"›"; position:absolute; left:4px; color:var(--teal); font-weight:700}
+  .todo a{color:inherit; text-decoration:none; display:block}
+  .todo a::after{content:" ↗"; font-size:.72rem; color:var(--muted)}
+  .todo a:hover{color:var(--teal)}
+  .todo a:hover::after{color:var(--teal)}
   .tipbox{
     background:rgba(224,180,90,.08); border-left:3px solid var(--gold);
     border-radius:0 8px 8px 0; padding:9px 12px; font-size:.8rem; line-height:1.65; color:var(--ink);
@@ -111,6 +115,17 @@
   .navrow button:hover{background:rgba(55,200,168,.15)}
   .navrow button:disabled{opacity:.3; cursor:default}
 
+
+  .photo{margin:-14px -20px 14px; height:170px; overflow:hidden; position:relative; background:rgba(255,255,255,.04)}
+  .photo img{width:100%; height:100%; object-fit:cover; display:block}
+  .photo .cap{position:absolute; right:8px; bottom:6px; font-size:.62rem; color:rgba(255,255,255,.75); text-shadow:0 1px 3px #000; background:rgba(0,0,0,.35); padding:1px 7px; border-radius:99px}
+  .morelinks{display:flex; gap:8px; flex-wrap:wrap}
+  .morelinks a{
+    font-size:.76rem; font-weight:700; text-decoration:none; color:var(--ink);
+    background:rgba(255,255,255,.06); border:1px solid var(--line);
+    padding:5px 11px; border-radius:99px;
+  }
+  .morelinks a:hover{border-color:var(--teal); color:var(--teal)}
   .gmarker{
     color:var(--ink); font-family:'Noto Sans KR',sans-serif; font-size:11.5px; font-weight:500;
     text-shadow:0 1px 4px rgba(0,0,0,.95), 0 0 2px rgba(0,0,0,.9);
@@ -157,6 +172,7 @@
     <div class="via" id="dVia"></div>
   </div>
   <div class="body">
+    <div class="photo" id="dPhoto" hidden><img id="dPhotoImg" alt=""><span class="cap">사진: Wikimedia Commons</span></div>
     <div class="sec" id="secDesc"><p id="dDesc"></p></div>
     <div class="sec" id="secStay">
       <div class="t">🛏 숙소</div>
@@ -174,6 +190,10 @@
     <div class="sec" id="secTip">
       <div class="t">💡 팁</div>
       <div class="tipbox" id="dTip"></div>
+    </div>
+    <div class="sec" id="secMore">
+      <div class="t">📚 자료 더 보기</div>
+      <div class="morelinks" id="dMore"></div>
     </div>
   </div>
   <div class="navrow">
@@ -407,6 +427,71 @@ STOPS.forEach(s => {
   stopsEl.appendChild(el);
 });
 
+
+// 도시별 대표 사진(영문 위키피디아 REST API에서 실시간 로드 — 실측 이미지)
+const WIKI = {
+  0:"Incheon International Airport", 1:"Sens\u014d-ji", 2:"Capilano Suspension Bridge",
+  3:"Aurora", 4:"Harvard University", 5:"Lincoln Memorial", 6:"Westminster Abbey",
+  7:"St. Peter's Basilica", 8:"St. Pierre Cathedral", 9:"Wartburg", 10:"Brandenburg Gate",
+  11:"Charles Bridge", 12:"Acropolis of Athens", 13:"Ephesus", 14:"Hagia Sophia",
+  15:"Mount Nebo", 16:"Al-Khazneh", 17:"Wadi Rum", 18:"Incheon International Airport"
+};
+
+// 활동·명소 공식 링크 (확실한 곳만 — 나머지는 구글 검색으로 자동 연결)
+const OFFICIAL = [
+  ["teamLab", "https://www.teamlab.art/ko/"],
+  ["카필라노", "https://www.capbridge.com/"],
+  ["오로라 관측 투어", "https://auroravillage.com/"],
+  ["고든콘웰", "https://www.gordonconwell.edu/"],
+  ["하버드", "https://www.harvard.edu/"],
+  ["플리머스", "https://plimoth.org/"],
+  ["항공우주박물관", "https://airandspace.si.edu/"],
+  ["성경박물관", "https://www.museumofthebible.org/"],
+  ["내셔널 대성당", "https://cathedral.org/"],
+  ["웨스트민스터", "https://www.westminster-abbey.org/"],
+  ["바티칸 박물관", "https://www.museivaticani.va/"],
+  ["바르트부르크", "https://www.wartburg.de/"],
+  ["바흐 생가", "https://www.bachhaus.de/"],
+  ["프라하 성", "https://www.hrad.cz/en"],
+  ["페트라 풀데이", "https://www.visitpetra.jo/"]
+];
+function todoHref(text){
+  for (const [k, u] of OFFICIAL){ if (text.includes(k)) return u; }
+  const q = text.replace(/\(.*?\)/g, '').trim();
+  return 'https://www.google.com/search?q=' + encodeURIComponent(q);
+}
+const _imgCache = {};
+function loadPhoto(n){
+  const box = document.getElementById('dPhoto');
+  const img = document.getElementById('dPhotoImg');
+  const title = WIKI[n];
+  if(!title){ box.hidden = true; return; }
+  if(_imgCache[n] === null){ box.hidden = true; return; }
+  if(_imgCache[n]){ img.src = _imgCache[n]; box.hidden = false; return; }
+  box.hidden = true;
+  fetch('https://en.wikipedia.org/api/rest_v1/page/summary/' + encodeURIComponent(title))
+    .then(r => r.ok ? r.json() : Promise.reject())
+    .then(d => {
+      const src = (d.originalimage && d.originalimage.source && d.originalimage.width <= 4000)
+        ? d.originalimage.source
+        : (d.thumbnail ? d.thumbnail.source.replace(/\/([0-9]+)px-/, '/800px-') : null);
+      if(src && current === n){ _imgCache[n] = src; img.src = src; box.hidden = false; }
+      else if(src){ _imgCache[n] = src; }
+      else { _imgCache[n] = null; }
+    })
+    .catch(() => { _imgCache[n] = null; });
+}
+function setMoreLinks(s){
+  const el = document.getElementById('dMore');
+  el.innerHTML = '';
+  const q = encodeURIComponent(s.city === '루터 로드' ? '바르트부르크 성 비텐베르크' : s.city);
+  const mk = (label, href) => { const a = document.createElement('a'); a.textContent = label; a.href = href; a.target = '_blank'; a.rel = 'noopener'; el.appendChild(a); };
+  mk('📖 위키백과', 'https://ko.wikipedia.org/wiki/%ED%8A%B9%EC%88%98:%EA%B2%80%EC%83%89?search=' + q);
+  mk('🖼 사진 더 보기', 'https://www.google.com/search?tbm=isch&q=' + q + '+winter');
+  mk('▶ 영상', 'https://www.youtube.com/results?search_query=' + q + '+여행');
+  mk('🗺 지도', 'https://www.google.com/maps/search/' + q);
+}
+
 // 우측 상세 드로어
 const drawer = document.getElementById('drawer');
 let current = 0;
@@ -424,6 +509,8 @@ function select(n){
   document.getElementById('dCity').textContent = s.city;
   document.getElementById('dVia').textContent = s.via ? (s.via + (s.dur ? ' · 이동 ' + s.dur : '')) : '인천공항에서 출발';
   document.getElementById('dDesc').textContent = s.desc;
+  loadPhoto(n);
+  setMoreLinks(s);
 
   const secStay = document.getElementById('secStay');
   if (s.stay){
@@ -451,7 +538,7 @@ function select(n){
 
   const todoEl = document.getElementById('dTodo');
   todoEl.innerHTML = '';
-  (s.todo || []).forEach(t => { const li = document.createElement('li'); li.textContent = t; todoEl.appendChild(li); });
+  (s.todo || []).forEach(t => { const li = document.createElement('li'); const a = document.createElement('a'); a.textContent = t; a.href = todoHref(t); a.target = '_blank'; a.rel = 'noopener'; li.appendChild(a); todoEl.appendChild(li); });
   document.getElementById('secTodo').hidden = !(s.todo && s.todo.length);
 
   const secTip = document.getElementById('secTip');
