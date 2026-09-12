@@ -75,6 +75,13 @@
     header{padding:12px 14px} header h1{font-size:1.1rem} header .legend{display:none}
   }
   @media (prefers-reduced-motion: reduce){ .stop{transition:none} }
+  .gmarker{
+    color:var(--ink); font-family:'Noto Sans KR',sans-serif; font-size:11.5px; font-weight:500;
+    text-shadow:0 1px 4px rgba(0,0,0,.95), 0 0 2px rgba(0,0,0,.9);
+    transform:translate(-50%,-130%); white-space:nowrap; cursor:pointer;
+    pointer-events:auto; user-select:none;
+  }
+  .gmarker:hover{color:#67e8c8}
 </style>
 </head>
 <body>
@@ -159,16 +166,37 @@ const world = Globe()(document.getElementById('globe'))
   .pointColor(() => '#ffffff')
   .pointAltitude(0.012)
   .pointRadius(0.34)
-  .labelsData(STOPS.filter(s => s.n !== 20))
-  .labelLat('lat').labelLng('lng')
-  .labelText('city')
-  .labelSize(0.85)
-  .labelDotRadius(0.28)
-  .labelColor(() => 'rgba(232,230,221,.92)')
-  .labelResolution(2)
-  .labelAltitude(0.015)
-  .onLabelClick(s => select(s.n))
+  .htmlElementsData(STOPS.filter(s => s.n !== 20))
+  .htmlLat('lat').htmlLng('lng')
+  .htmlAltitude(0.02)
+  .htmlElement(s => {
+    const el = document.createElement('div');
+    el.className = 'gmarker';
+    el.textContent = s.city;
+    el.addEventListener('click', () => select(s.n));
+    s._el = el;
+    return el;
+  })
   .onPointClick(s => select(s.n));
+
+// 지구 뒷면 라벨 가림: 카메라와 마커의 각도로 가시성 판정
+function updateMarkerVisibility(){
+  const cam = world.camera().position;
+  const camLen = Math.hypot(cam.x, cam.y, cam.z) || 1;
+  STOPS.forEach(s => {
+    if (!s._el) return;
+    const p = world.getCoords(s.lat, s.lng, 0.02);
+    const pLen = Math.hypot(p.x, p.y, p.z) || 1;
+    const dot = (p.x*cam.x + p.y*cam.y + p.z*cam.z) / (pLen * camLen);
+    // 지평선 임계값: cosθ = R/d (카메라가 멀수록 보이는 반구가 좁아짐)
+    const horizon = (world.getGlobeRadius() / camLen) * 0.97;
+    const visible = dot > horizon;
+    s._el.style.opacity = visible ? 1 : 0;
+    s._el.style.pointerEvents = visible ? 'auto' : 'none';
+  });
+}
+world.controls().addEventListener('change', updateMarkerVisibility);
+setInterval(updateMarkerVisibility, 300); // 자동 회전·애니메이션 중에도 주기 갱신
 
 world.controls().autoRotate = true;
 world.controls().autoRotateSpeed = 0.55;
