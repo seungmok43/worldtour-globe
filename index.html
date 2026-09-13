@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>2027 세계일주 — 40일의 지구 한 바퀴</title>
+<title>2027 세계일주 — 35일의 지구 한 바퀴</title>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌍</text></svg>">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@700&family=Noto+Sans+KR:wght@400;500;700&display=swap">
 <style>
@@ -153,7 +153,7 @@
 <body>
 <header>
   <h1>2027 세계일주</h1>
-  <span class="sub">2027.12.8 → 2028.1.16 · 40일 · 동쪽으로 지구 한 바퀴</span>
+  <span class="sub">2027.12.13 → 2028.1.16 · 35일 · 동쪽으로 지구 한 바퀴</span>
   <span class="legend"><span class="f"><i></i>항공</span><span class="g"><i></i>렌터카·기차</span></span>
 </header>
 
@@ -205,114 +205,108 @@
 <script src="https://cdn.jsdelivr.net/npm/globe.gl@2.32.3/dist/globe.gl.min.js"></script>
 <script>
 const STOPS = [
-  {n:0, city:"인천 출발", date:"12/8", lat:37.46, lng:126.44,
-   desc:"40일 여정의 시작 — 수요일 출발이라 12월 첫 주일까지 사역 가능.",
+  {n:0, city:"인천 출발", date:"12/13", lat:37.46, lng:126.44,
+   desc:"35일 여정의 시작 — 월요일 출발이라 12/12 주일까지 사역 가능.",
    via:"", dur:"", stay:null,
    todo:["여권(딸은 2권)·ESTA·eTA·ETA·Jordan Pass 최종 확인","부스터시트(요르단 차량용) 휴대"],
    tip:"기본 결제는 수수료 0 트래블 체크카드."},
-  {n:1, city:"도쿄", date:"12/8–10", lat:35.68, lng:139.77,
-   desc:"태평양 횡단 전 2박 — 휴식과 시차 분할 적응.",
+  {n:1, city:"도쿄", date:"12/13–14", lat:35.68, lng:139.77,
+   desc:"오후 도착 → 저녁 teamLab, 이튿날 오전 센소지 — 1박 압축.",
    via:"✈ 인천→나리타 (피치·ZIPAIR·제주)", dur:"2시간 20분",
    stay:{name:"시내 비즈니스호텔 트윈룸 ×2 (토요코인·APA)", price:"1박 12–20만원 (2룸 합)", note:"토요코인은 아동 침대 공유 무료+조식. ※MIMARU는 실측 55~73만/박으로 제외."},
    todo:["teamLab (저녁, 아이들 최고)","아사쿠사 센소지","시차 적응 우선"],
    tip:"무리한 일정 금지 — 목적은 적응입니다."},
-  {n:2, city:"밴쿠버", date:"12/10–11", lat:49.28, lng:-123.12,
+  {n:2, city:"밴쿠버", date:"12/14–15", lat:49.28, lng:-123.12,
    desc:"오전 도착 1박 완충 — 보유 포인트로 숙박 무료.",
    via:"✈ ZIPAIR 직항 (딸 U6 · 실측 ₩475,269/인)", dur:"8시간 30분",
    stay:{name:"Residence Inn 다운타운 (Marriott)", price:"Bonvoy 44,192포인트로 무료", note:"골드 2시 레이트 체크아웃."},
    todo:["카필라노 캐년 라이츠 (야간 일루미네이션)","개스타운"],
    tip:"낮잠 참고 저녁까지 버티기 — 시차의 절반이 여기서 잡힙니다."},
-  {n:3, city:"옐로나이프", date:"12/11–14", lat:62.45, lng:-114.37,
-   desc:"오로라 3박 — 12/12 주일: 오로라 아래 가족예배(시 19편).",
+  {n:3, city:"옐로나이프", date:"12/15–18", lat:62.45, lng:-114.37,
+   desc:"오로라 3박 — 밤은 티피에서 하늘을(시 19편), 낮은 개썰매.",
    via:"✈ 밴쿠버발 — 실측 에어캐나다 직항 ₩213,888", dur:"1시간 34분",
    stay:{name:"Quality Inn & Suites (실측 3박 ₩726,712)", price:"3박 ~73만원", note:"오로라 투어 픽업 거점. 방이 적어 9월 중 예약."},
    todo:["오로라 투어 2회 밤 (방한복 대여 포함)","낮 개썰매","12/12 주일 가족예배"],
    tip:"영하 20~30℃ — 방한복은 투어사 대여. 관측은 밤 10시~새벽."},
-  {n:4, city:"보스턴", date:"12/14–17", lat:42.36, lng:-71.06,
-   desc:"필그림과 아버지의 도시 — 고든콘웰 캠퍼스에서 3박.",
+  {n:4, city:"보스턴", date:"12/18–21", lat:42.36, lng:-71.06,
+   desc:"필그림과 아버지의 도시 — 고든콘웰 캠퍼스 3박. 12/19 주일: 파크스트리트 교회(1809).",
    via:"✈ 옐로나이프발 경유 (종일 이동)", dur:"약 8시간+",
    stay:{name:"★ 고든콘웰 캠퍼스 게스트하우징 2베드룸", price:"1박 $85 (~12만원) 실측", note:"퀸+트윈2·주방. Cloudbeds 예약 또는 guesthousing@gordonconwell.edu. 해밀턴역→노스역 통근열차 50분."},
-   todo:["고든콘웰 캠퍼스 (12/15)","하버드·프리덤 트레일·올드노스교회","플리머스 — 메이플라워 II"],
+   todo:["고든콘웰 캠퍼스 (12/19 전후)","하버드·프리덤 트레일·올드노스교회","플리머스 — 메이플라워 II"],
    tip:"렌터카 없음 — 통근열차·우버로 충분."},
-  {n:5, city:"워싱턴 DC", date:"12/17–21", lat:38.90, lng:-77.04,
-   desc:"무료 박물관의 수도, 4박 — 박물관에 이틀을 쓸 여유.",
-   via:"✈ 보스턴발 — 실측 제트블루 직항 ₩165,551", dur:"1시간 40분",
-   stay:{name:"Hampton Inn Crystal City (실측 최고 가성비)", price:"1박 ~13만원", note:"실측 3박 ₩392,837. 지하철로 몰 직행. 메리어트 무료숙박권 1박 병용."},
-   todo:["스미소니언 항공우주박물관 (무료)","성경박물관","링컨 기념관·성탄의 내셔널 몰","12/19 주일: 내셔널 대성당"],
-   tip:"12/21 밤 대서양 야간편 — 이 여정 최우선 발권 구간."},
-  {n:6, city:"런던", date:"12/21–23", lat:51.51, lng:-0.13,
+  {n:5, city:"런던", date:"12/21–23", lat:51.51, lng:-0.13,
    desc:"1박 압축 — 12/22 아침 도착, 알찬 하루.",
-   via:"✈ DC→런던 버진 야간 직항 — 실측 12/21 ₩581,528 (12/20 대비 -90만)", dur:"7시간",
+   via:"✈ 보스턴→런던 야간 직항 — 실측 12/21 ₩531,893", dur:"6시간 45분",
    stay:{name:"Premier Inn 패밀리룸 (직판)", price:"1박 ~28만원", note:"County Hall — 빅벤 도보권."},
    todo:["웨슬리 채플 → 웨스트민스터","저녁 캐럴 예배 (Nine Lessons & Carols)"],
    tip:"짐은 호텔에 맡기고 하루를 꽉 채우기."},
-  {n:7, city:"로마", date:"12/23–27", lat:41.90, lng:12.50,
+  {n:6, city:"로마", date:"12/23–27", lat:41.90, lng:12.50,
    desc:"성탄을 로마에서 — 12/24 성 베드로 전야 미사(사전 신청).",
    via:"✈ 런던발 — 실측 easyJet ₩159,691", dur:"2시간 30분",
    stay:{name:"MEININGER Roma Termini (실측 4박 ₩888,311)", price:"1박 ~22만원", note:"패밀리룸·주방 — 성탄 연휴 취사. 대안: Adagio Vatican."},
    todo:["12/24 성탄 전야 미사","바티칸 박물관 (사전예약)","카타콤·세 분수","12/26 주일: 성 밖 성 바오로(바울의 무덤)"],
    tip:"성탄 당일은 대부분 휴무 — 광장 산책과 가족 시간."},
-  {n:8, city:"제네바·취리히", date:"12/27–29", lat:46.20, lng:6.14,
+  {n:7, city:"제네바·취리히", date:"12/27–29", lat:46.20, lng:6.14,
    desc:"칼뱅과 츠빙글리 — 종교개혁의 스위스.",
    via:"✈ 로마발 — 실측 easyJet ₩92,609", dur:"1시간 30분",
    stay:{name:"IntercityHotel/Novotel (실측 2박 ₩456,903~)", price:"1박 23–30만원", note:"제네바 투숙객 무료 교통카드."},
    todo:["생피에르 대성당 — 칼뱅의 강단","종교개혁 기념비·MIR 박물관","기차로 취리히 — 그로스뮌스터"],
    tip:"식사는 코옵/미그로 마트 활용."},
-  {n:9, city:"루터 로드", date:"12/29–31", lat:50.98, lng:10.31,
+  {n:8, city:"루터 로드", date:"12/29–31", lat:50.98, lng:10.31,
    desc:"보름스에서 비텐베르크까지 — 종교개혁의 길.",
    via:"🚂 독일 기차 (아이 둘 무료)", dur:"약 4시간",
    stay:{name:"★ 에르푸르트 어거스틴 수도원 게스트하우스", price:"1박 19–26만원 (실측권)", note:"루터의 수도원에서 하룻밤 — 조기 예약 필수."},
    todo:["보름스 제국의회 현장","바르트부르크 성 — 성경 번역의 골방","바흐 생가","12/31 비텐베르크 — 95개조"],
    tip:"독일 기차 만 4–11세 무료."},
-  {n:10, city:"베를린", date:"12/31–1/3", lat:52.52, lng:13.40,
+  {n:9, city:"베를린", date:"12/31–1/3", lat:52.52, lng:13.40,
    desc:"새해 전야 브란덴부르크 문 — 본회퍼의 도시에서 새해 첫 주일.",
    via:"🚂 비텐베르크발", dur:"1시간 30분",
    stay:{name:"Novotel/ibis Mitte (실측 3박 ₩828,371)", price:"1박 26–32만원 (새해 할증)", note:"불꽃 동선 도보권."},
    todo:["12/31 브란덴부르크 문","본회퍼 하우스","1/2 주일: 치온교회/베를린 돔"],
    tip:"1/1은 유럽 전체 휴무 — 안식의 날."},
-  {n:11, city:"프라하", date:"1/3–5", lat:50.09, lng:14.42,
+  {n:10, city:"프라하", date:"1/3–5", lat:50.09, lng:14.42,
    desc:"얀 후스의 도시 — 1월에도 열린 크리스마스 마켓.",
    via:"🚂 베를린→프라하 기차", dur:"4시간",
    stay:{name:"STAGES/Miss Sophie's (실측 2박 ₩361,732~)", price:"1박 18–21만원", note:"구시가 도보권."},
    todo:["베들레헴 채플 — 후스의 강단","후스 동상 + 마켓 (주현절 1/6까지)","카를 교·프라하 성"],
    tip:"눈 덮인 카를 교의 아침이 백미."},
-  {n:12, city:"아테네", date:"1/5–7", lat:37.98, lng:23.73,
+  {n:11, city:"아테네", date:"1/5–7", lat:37.98, lng:23.73,
    desc:"바울의 아레오바고 언덕으로.",
    via:"✈ 프라하발 — 실측 LOT 경유 ₩182,712", dur:"5시간",
    stay:{name:"Novotel Athens (실측 2박 ₩229,756)", price:"1박 ~11.5만원", note:"1월 아테네는 온화·한산."},
    todo:["아레오바고 언덕 (행 17장)","아크로폴리스 (사전예약)","고린도 당일 왕복"],
    tip:"겨울 유적지는 오전 방문이 안전."},
-  {n:13, city:"에베소·이즈미르", date:"1/7–9", lat:38.42, lng:27.14,
+  {n:12, city:"에베소·이즈미르", date:"1/7–9", lat:38.42, lng:27.14,
    desc:"계시록 일곱 교회의 땅 — 1/9 주일: 서머나에서 예배.",
    via:"✈ 아테네발 — 실측 페가수스 경유 ₩143,202", dur:"4시간",
    stay:{name:"Mira Otel Alsancak (실측 2박 ₩315,719)", price:"1박 ~16만원", note:"알산작 중심가."},
    todo:["에베소 유적 — 셀수스 도서관","반나절 사데","1/9 주일 예배"],
    tip:"에베소는 아침 일찍."},
-  {n:14, city:"이스탄불", date:"1/9–11", lat:41.01, lng:28.98,
+  {n:13, city:"이스탄불", date:"1/9–11", lat:41.01, lng:28.98,
    desc:"콘스탄티노플 — 여기서 요르단 왕복 사이드트립 출발.",
    via:"✈ 이즈미르발 — 실측 페가수스 ₩58,205", dur:"1시간 10분",
    stay:{name:"신시가/갈라타 패밀리룸", price:"1박 ~23만원", note:"④수술: 술탄아흐메트(29만)→신시가로 최적화."},
    todo:["성 소피아","코라 모자이크","지하 저수조"],
    tip:"큰 짐 일부는 호텔에 보관하고 요르단은 가볍게."},
-  {n:15, city:"암만", date:"1/11–12", lat:31.95, lng:35.93,
+  {n:14, city:"암만", date:"1/11–12", lat:31.95, lng:35.93,
    desc:"요르단 사이드트립 시작 — 모세의 산으로.",
    via:"✈ 이스탄불↔암만 왕복 (4인 ~110만 · ①수술)", dur:"2시간",
    stay:{name:"암만 시내 호텔", price:"1박 8–14만원", note:"Jordan Pass로 비자 수수료 면제."},
    todo:["마다바 모자이크 지도","느보산 (신 34장)","요단강 베다니 세례터","사해"],
    tip:"전용차량 4일(~70만)이 정석."},
-  {n:16, city:"페트라", date:"1/12–14", lat:30.32, lng:35.48,
+  {n:15, city:"페트라", date:"1/12–14", lat:30.32, lng:35.48,
    desc:"시크 협곡 끝의 알카즈네.",
    via:"🚗 전용차량", dur:"3시간",
    stay:{name:"Petra Plaza (실측 2박 ₩178,111)", price:"1박 ~9만원", note:"유적 입구 도보권."},
    todo:["페트라 풀데이 (만 12세 이하 무료)","이른 아침 입장 — 1월의 빈 시크"],
    tip:"수도원 800계단은 컨디션 봐서."},
-  {n:17, city:"와디럼", date:"1/14–15", lat:29.58, lng:35.42,
+  {n:16, city:"와디럼", date:"1/14–15", lat:29.58, lng:35.42,
    desc:"사막의 별하늘 아래 마지막 밤 — 마지막 가족예배.",
    via:"🚗 전용차량", dur:"1시간 40분",
    stay:{name:"★ 베드윈 캠프 가족 텐트", price:"1박 20–30만원 (석식 포함)", note:"밤 0℃ — 난방·침구 확인."},
    todo:["지프 사막 투어","별하늘 아래 40일을 마감하는 가족예배"],
    tip:"오로라의 하늘로 시작해 사막의 별로 끝나는 여정."},
-  {n:18, city:"인천 도착", date:"1/15–16", lat:37.46, lng:126.44,
+  {n:17, city:"인천 도착", date:"1/15–16", lat:37.46, lng:126.44,
    desc:"암만→이스탄불(왕복 복편)→이스탄불→인천 직항 — 1/16 도착, 지구 한 바퀴 완성.",
    via:"✈ 이스탄불→인천 직항 (①수술 — 4인 ~157만)", dur:"약 12시간(경유 포함)",
    stay:null,
@@ -326,19 +320,18 @@ const STAY_LINKS = {
   2:{map:"Residence Inn by Marriott Vancouver Downtown"},
   3:{map:"Quality Inn and Suites Yellowknife"},
   4:{url:"https://hotels.cloudbeds.com/en/reservation/dOAO27/", map:"Gordon-Conwell Theological Seminary South Hamilton"},
-  5:{map:"Hampton Inn and Suites Arlington Crystal City"},
-  6:{url:"https://www.premierinn.com/", map:"Premier Inn London County Hall"},
-  7:{url:"https://www.meininger-hotels.com/", map:"MEININGER Roma Termini"},
-  8:{url:"https://all.accor.com/", map:"IntercityHotel Geneva"},
-  9:{url:"https://augustinerkloster.de/", map:"Augustinerkloster zu Erfurt"},
-  10:{url:"https://all.accor.com/", map:"Novotel Berlin Mitte"},
-  11:{url:"https://www.booking.com/searchresults.ko.html?ss=Prague+Old+Town", map:"Prague Old Town"},
-  12:{url:"https://all.accor.com/", map:"Novotel Athenes"},
-  13:{url:"https://www.booking.com/searchresults.ko.html?ss=Alsancak+Izmir", map:"Mira Otel Alsancak Izmir"},
-  14:{url:"https://www.booking.com/searchresults.ko.html?ss=Galata+Istanbul+family+room", map:"Galata Istanbul"},
-  15:{url:"https://www.booking.com/searchresults.ko.html?ss=Amman+hotel", map:"Amman Jordan"},
-  16:{url:"https://www.booking.com/searchresults.ko.html?ss=Wadi+Musa+hotel", map:"Petra Plaza Hotel Wadi Musa"},
-  17:{url:"https://www.booking.com/searchresults.ko.html?ss=Wadi+Rum+bedouin+camp", map:"Wadi Rum Village"},
+  5:{url:"https://www.premierinn.com/", map:"Premier Inn London County Hall"},
+  6:{url:"https://www.meininger-hotels.com/", map:"MEININGER Roma Termini"},
+  7:{url:"https://all.accor.com/", map:"IntercityHotel Geneva"},
+  8:{url:"https://augustinerkloster.de/", map:"Augustinerkloster zu Erfurt"},
+  9:{url:"https://all.accor.com/", map:"Novotel Berlin Mitte"},
+  10:{url:"https://www.booking.com/searchresults.ko.html?ss=Prague+Old+Town", map:"Prague Old Town"},
+  11:{url:"https://all.accor.com/", map:"Novotel Athenes"},
+  12:{url:"https://www.booking.com/searchresults.ko.html?ss=Alsancak+Izmir", map:"Mira Otel Alsancak Izmir"},
+  13:{url:"https://www.booking.com/searchresults.ko.html?ss=Galata+Istanbul+family+room", map:"Galata Istanbul"},
+  14:{url:"https://www.booking.com/searchresults.ko.html?ss=Amman+hotel", map:"Amman Jordan"},
+  15:{url:"https://www.booking.com/searchresults.ko.html?ss=Wadi+Musa+hotel", map:"Petra Plaza Hotel Wadi Musa"},
+  16:{url:"https://www.booking.com/searchresults.ko.html?ss=Wadi+Rum+bedouin+camp", map:"Wadi Rum Village"},
 };
 
 const GROUND = new Set([8,9,10,15,16]);
@@ -374,7 +367,7 @@ const world = Globe()(document.getElementById('globe'))
   .pointColor(() => '#ffffff')
   .pointAltitude(0.012)
   .pointRadius(0.34)
-  .htmlElementsData(STOPS.filter(s => s.n !== 18))
+  .htmlElementsData(STOPS.filter(s => s.n !== 17))
   .htmlLat('lat').htmlLng('lng')
   .htmlAltitude(0.02)
   .htmlElement(s => {
@@ -420,7 +413,7 @@ const stopsEl = document.getElementById('stops');
 STOPS.forEach(s => {
   const el = document.createElement('div');
   el.className = 'stop'; el.id = 'stop-'+s.n; el.tabIndex = 0;
-  el.innerHTML = `<div class="n">${s.n===0?'출':(s.n===18?'귀':s.n)}</div>
+  el.innerHTML = `<div class="n">${s.n===0?'출':(s.n===17?'귀':s.n)}</div>
     <div><div class="d">${s.date}</div><div class="c">${s.city}</div><div class="m">${s.via ? s.via + (s.dur ? ' · <b>' + s.dur + '</b>' : '') : '여정의 시작'}</div></div>`;
   el.addEventListener('click', () => select(s.n));
   el.addEventListener('keydown', e => { if(e.key==='Enter'||e.key===' '){ e.preventDefault(); select(s.n);} });
@@ -430,11 +423,11 @@ STOPS.forEach(s => {
 
 // 도시별 대표 사진(영문 위키피디아 REST API에서 실시간 로드 — 실측 이미지)
 const WIKI = {
-  0:"Incheon International Airport", 1:"Sens\u014d-ji", 2:"Capilano Suspension Bridge",
-  3:"Aurora", 4:"Harvard University", 5:"Lincoln Memorial", 6:"Westminster Abbey",
-  7:"St. Peter's Basilica", 8:"St. Pierre Cathedral", 9:"Wartburg", 10:"Brandenburg Gate",
-  11:"Charles Bridge", 12:"Acropolis of Athens", 13:"Ephesus", 14:"Hagia Sophia",
-  15:"Mount Nebo", 16:"Al-Khazneh", 17:"Wadi Rum", 18:"Incheon International Airport"
+  0:"Incheon International Airport", 1:"Sensoji", 2:"Capilano Suspension Bridge",
+  3:"Aurora", 4:"Harvard University", 5:"Westminster Abbey",
+  6:"St. Peter's Basilica", 7:"St. Pierre Cathedral", 8:"Wartburg", 9:"Brandenburg Gate",
+  10:"Charles Bridge", 11:"Acropolis of Athens", 12:"Ephesus", 13:"Hagia Sophia",
+  14:"Mount Nebo", 15:"Al-Khazneh", 16:"Wadi Rum", 17:"Incheon International Airport"
 };
 
 // 활동·명소 공식 링크 (확실한 곳만 — 나머지는 구글 검색으로 자동 연결)
